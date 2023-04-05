@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  role          Role     @default(MEMBER)
+  password_hash String
+  birth         DateTime
+  created_at    DateTime @default(now())
+  amount        Decimal  @default(0) @db.Decimal(9, 2)
+
+  SnackBar SnackBar[]
+}
+
+model SnackBar {
+  id            String  @id @default(uuid())
+  name          String
+  description   String?
+  addressStreet String
+  addressNumber String
+  addressCity   String
+
+  owner   User      @relation(fields: [user_id], references: [id])
+  user_id String
+  Product Product[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  price       Decimal
+  created_at  DateTime @default(now())
+
+  snackBar    SnackBar @relation(fields: [snackBar_id], references: [id])
+  snackBar_id String
+}
