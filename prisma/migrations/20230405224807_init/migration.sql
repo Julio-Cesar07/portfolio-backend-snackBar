@@ -10,7 +10,7 @@ CREATE TABLE "User" (
     "password_hash" TEXT NOT NULL,
     "birth" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "amount" DECIMAL(9,2) NOT NULL,
+    "amount" DECIMAL(9,2) NOT NULL DEFAULT 0,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

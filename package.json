@@ -7,18 +7,13 @@
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "prisma": "prisma migrate dev",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "test": "vitest run --dir src/use-cases/tests",
+    "test:watch": "vitest --dir src/use-cases/tests"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@prisma/client": "4.12.0",
-    "bcryptjs": "2.4.3",
-    "dotenv": "16.0.3",
-    "fastify": "4.15.0",
-    "zod": "3.21.4"
-  },
   "devDependencies": {
     "@types/bcryptjs": "2.4.2",
     "@types/node": "18.15.11",
@@ -28,6 +23,15 @@
     "prisma": "4.12.0",
     "tsup": "6.7.0",
     "tsx": "3.12.6",
-    "typescript": "5.0.3"
+    "typescript": "5.0.3",
+    "vite-tsconfig-paths": "4.0.8",
+    "vitest": "0.29.8"
+  },
+  "dependencies": {
+    "@prisma/client": "4.12.0",
+    "bcryptjs": "2.4.3",
+    "dotenv": "16.0.3",
+    "fastify": "4.15.0",
+    "zod": "3.21.4"
   }
 }
