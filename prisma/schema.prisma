@@ -18,6 +18,7 @@ model User {
   amount        Decimal  @default(0) @db.Decimal(9, 2)
 
   SnackBar SnackBar[]
+  Buy      Buy[]
 
   @@map("users")
 }
@@ -31,8 +32,9 @@ model SnackBar {
   addressCity   String
 
   Product Product[]
-  owner   User      @relation(fields: [user_id], references: [id])
+
   user_id String
+  owner   User   @relation(fields: [user_id], references: [id])
 
   status Status @default(UNCHECKED)
 
@@ -45,11 +47,25 @@ model Product {
   description String?
   price       Decimal
   created_at  DateTime @default(now())
-  snackBar_id String
 
-  snackBar SnackBar @relation(fields: [snackBar_id], references: [id])
+  snackBar_id String
+  snackBar    SnackBar @relation(fields: [snackBar_id], references: [id])
+
+  Buy Buy[]
 
   @@map("products")
+}
+
+model Buy {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id])
+
+  products Product[]
+
+  @@map("buy")
 }
 
 enum Role {

@@ -1,29 +1,16 @@
 import { InMemorySnackBarRepository } from '@/repositories/in-memory/in-memory-snack-bar-repository';
-import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository';
 import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-repository';
-import { UserRepository } from '@/repositories/interfaces/user-repository';
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
 import { ValidateStatusSnackBarUseCase } from '@/use-cases/snackBar/validate-status-snack-bar';
-import { hash } from 'bcryptjs';
 import { describe, beforeEach, it, expect } from 'vitest';
 
 let snackBarRepository: SnackBarRepository;
-let userRepository: UserRepository;
 let sut: ValidateStatusSnackBarUseCase;
 
 describe('Create a Snack Bar Use Case', () => {
 	beforeEach(async () => {
-		userRepository = new InMemoryUserRepository();
 		snackBarRepository = new InMemorySnackBarRepository();
 		sut = new ValidateStatusSnackBarUseCase(snackBarRepository);
-	
-		await userRepository.create({
-			id: 'user-01',
-			name: 'JohnDoe',
-			email: 'johndoe@example.com',
-			birth: new Date(2000, 0, 12),
-			password_hash: await hash('123456', 6),
-		});
 
 		await snackBarRepository.create({
 			id: 'snackBar-01',

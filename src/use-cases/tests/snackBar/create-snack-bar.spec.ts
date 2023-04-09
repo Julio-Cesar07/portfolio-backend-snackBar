@@ -2,6 +2,7 @@ import { InMemorySnackBarRepository } from '@/repositories/in-memory/in-memory-s
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository';
 import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-repository';
 import { UserRepository } from '@/repositories/interfaces/user-repository';
+import { AgeUnder18Error } from '@/use-cases/errors/age-under-18-error';
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
 import { CreateSnackBarUseCase } from '@/use-cases/snackBar/create-snackBar';
 import { hash } from 'bcryptjs';
@@ -21,7 +22,7 @@ describe('Create a Snack Bar Use Case', () => {
 			id: 'user-01',
 			name: 'JohnDoe',
 			email: 'johndoe@example.com',
-			birth: new Date(2000, 0, 12),
+			birth: new Date(2000, 3, 9),
 			password_hash: await hash('123456', 6)
 		});
 	});
@@ -48,5 +49,26 @@ describe('Create a Snack Bar Use Case', () => {
 				user_id: 'user-02',
 			})
 		).rejects.toBeInstanceOf(ResourceNotFoundError);
+	});
+
+	it('should not be able to create a snack bar with a user under 18 years old', async () => {
+
+		await userRepository.create({
+			id: 'user-02',
+			name: 'JohnDoe',
+			email: 'johndoe@example.com',
+			birth: new Date(2022, 3, 9),
+			password_hash: await hash('123456', 6)
+		});
+
+		await expect(() => 
+			sut.execute({
+				addressCity: 'Santos',
+				addressNumber: '45698',
+				addressStreet: 'Rua de fulano',
+				name: 'Snack Bar Git',
+				user_id: 'user-02',
+			})
+		).rejects.toBeInstanceOf(AgeUnder18Error);
 	});
 });

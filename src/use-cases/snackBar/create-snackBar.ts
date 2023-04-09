@@ -2,6 +2,8 @@ import { SnackBar } from '@prisma/client';
 import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-repository';
 import { UserRepository } from '@/repositories/interfaces/user-repository';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
+import { calculateAge } from '@/utils/calculate-age';
+import { AgeUnder18Error } from '../errors/age-under-18-error';
 
 interface CreateSnackBarUseCaseRequest{
     name: string,
@@ -32,6 +34,11 @@ export class CreateSnackBarUseCase{
 
 		if(!user)
 			throw new ResourceNotFoundError;
+
+		const userAge = calculateAge(user.birth);
+
+		if(userAge < 18)
+			throw new AgeUnder18Error;
 		
 		const snackBar = await this.snackBarRepository.create({
 			addressCity,
