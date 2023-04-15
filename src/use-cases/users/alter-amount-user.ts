@@ -1,5 +1,6 @@
 import { UserRepository } from '@/repositories/interfaces/user-repository';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
+import { InsufficientFundsError } from '../errors/insufficient-funds-error';
 
 interface AlterAmountUserUseCaseRequest{
     userId: string
@@ -17,10 +18,16 @@ export class AlterAmountUserUseCase {
 		userId,
 		amount
 	}: AlterAmountUserUseCaseRequest): Promise<AlterAmountUserUseCaseResponse>{
-		const userAmount = await this.userRepository.alterAmount(userId, amount);
+		const user = await this.userRepository.findById(userId);
 
-		if(!userAmount && userAmount !== 0)
+		if(!user)
 			throw new ResourceNotFoundError;
+
+		if(user?.amount.toNumber() + amount < 0){
+			throw new InsufficientFundsError;
+		}
+		
+		const userAmount = await this.userRepository.alterAmount(userId, amount);
 
 		return {
 			userAmount

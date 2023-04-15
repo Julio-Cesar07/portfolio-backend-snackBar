@@ -2,6 +2,7 @@ import { ProductRepository } from '@/repositories/interfaces/product-respository
 import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-repository';
 import { Product } from '@prisma/client';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
+import { SnackBarNotValidateError } from '../errors/snackBar-not-validate-error';
 
 interface CreateProductUseCaseRequest{
     description?: string,
@@ -28,6 +29,9 @@ export class CreateProductUseCase {
 
 		if(!snackBar)
 			throw new ResourceNotFoundError;
+
+		if(snackBar.status !== 'CHECKED')
+			throw new SnackBarNotValidateError;
         
 		const product = await this.productRepository.create({
 			price,

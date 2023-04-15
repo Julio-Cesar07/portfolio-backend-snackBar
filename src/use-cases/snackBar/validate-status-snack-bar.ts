@@ -16,12 +16,10 @@ export class ValidateStatusSnackBarUseCase{
 	async execute({
 		snackBarId
 	}: ValidateStatusSnackBarUseCaseRequest): Promise<ValidateStatusSnackBarUseCaseResponse>{
-		const snackBar = await this.snackBarRepository.findById(snackBarId);
+		const snackBar = await this.snackBarRepository.validateStatus(snackBarId, {roleToVerify: 'CHECKED'});
 
 		if(!snackBar)
 			throw new ResourceNotFoundError;
-
-		snackBar.status = 'CHECKED';
 
 		return {
 			snackBar

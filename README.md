@@ -29,3 +29,18 @@ Snack bar style app where you can see the products.
 - [x] Os dados precisam estar persistindo em um banco PostgreSQL;
 - [x] Todas lista de dados precisam estar paginada com 20 itens por páginas;
 - [ ] O usuário deve ser identificado por JWT (JSON Web Token);
+
+
+
+## ToDo
+
+- Configuração JWT
+- Configuração Token e RefreshToken
+- Authentica como user, o back devolve os snackbar criado pelo usuario por uma rota, usuário escolhe uma snack bar (pelo front) e o back coloca o id dela no cookie
+- Factories SnackBar, products e buy
+- Prisma SnackBar, products e buy
+- Rotas que requerem o JWT (/me)
+- Rotas SnackBar, products e buy
+- Testes E2E
+- CI
+- Deploy

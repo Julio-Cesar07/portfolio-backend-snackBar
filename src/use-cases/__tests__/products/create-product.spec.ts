@@ -3,6 +3,7 @@ import { InMemorySnackBarRepository } from '@/repositories/in-memory/in-memory-s
 import { ProductRepository } from '@/repositories/interfaces/product-respository';
 import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-repository';
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
+import { SnackBarNotValidateError } from '@/use-cases/errors/snackBar-not-validate-error';
 import { CreateProductUseCase } from '@/use-cases/products/create-product';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -11,18 +12,19 @@ let snackBarRepository: SnackBarRepository;
 let sut: CreateProductUseCase;
 
 describe('Create a Product Use Case', () => {
-	beforeEach(() => {
+	beforeEach(async () => {
 		snackBarRepository = new InMemorySnackBarRepository();
 		productRepository = new InMemoryProductRepository();
 		sut = new CreateProductUseCase(productRepository, snackBarRepository);
 
-		snackBarRepository.create({
+		await snackBarRepository.create({
 			id: 'snackBar-01',
 			addressCity: 'Santos',
 			addressNumber: '45698',
 			addressStreet: 'Rua de fulano',
 			name: 'Snack Bar Git',
 			user_id: 'user-01',
+			status: 'CHECKED'
 		});
 	});
 
@@ -47,5 +49,27 @@ describe('Create a Product Use Case', () => {
 				description: 'Um bom sandwich'
 			})
 		).rejects.toBeInstanceOf(ResourceNotFoundError);
+	});
+
+	it('should not be able create a product without a snack bar checked', async () => {
+
+		await snackBarRepository.create({
+			id: 'snackBar-02',
+			addressCity: 'Santos',
+			addressNumber: '45698',
+			addressStreet: 'Rua de fulano',
+			name: 'Snack Bar Git',
+			user_id: 'user-01',
+		});
+
+
+		await expect(() => 
+			sut.execute({
+				price: 22,
+				snackBar_id: 'snackBar-02',
+				title: 'Sandwich',
+				description: 'Um bom sandwich'
+			})
+		).rejects.toBeInstanceOf(SnackBarNotValidateError);
 	});
 });

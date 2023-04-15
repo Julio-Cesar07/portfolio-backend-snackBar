@@ -49,7 +49,7 @@ describe('Fetch Products In Snack Bar Use Case', () => {
 		});
 
 		const { products } = await sut.execute({
-			snackBar_id: 'snackBar-01',
+			snackBarId: 'snackBar-01',
 			page: 1,
 		});
 
@@ -84,7 +84,7 @@ describe('Fetch Products In Snack Bar Use Case', () => {
 		});
 
 		const { products } = await sut.execute({
-			snackBar_id: 'snackBar-01',
+			snackBarId: 'snackBar-01',
 			page: 2,
 		});
 

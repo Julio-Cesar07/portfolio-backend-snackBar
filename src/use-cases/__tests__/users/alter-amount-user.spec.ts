@@ -18,7 +18,8 @@ describe('Alter Amount Use Case', () => {
 			name: 'JohnDoe',
 			email: 'johndoe@example.com',
 			birth: new Date(2000, 0, 12),
-			password_hash: await hash('123456', 6)
+			password_hash: await hash('123456', 6),
+			amount: 800
 		});
 	});
 
@@ -28,16 +29,16 @@ describe('Alter Amount Use Case', () => {
 			amount: 1000
 		});
         
-		expect(userAmount).toEqual(1000);
+		expect(userAmount).toEqual(1800);
 	});
 
 	it('should be able decrease the amount', async () => {
 		const { userAmount } = await sut.execute({
 			userId: 'user-01',
-			amount: -1000
+			amount: -100
 		});
         
-		expect(userAmount).toEqual(-1000);
+		expect(userAmount).toEqual(700);
 	});
 
 	it('should not be able alter the amount of a user that doesnt exist', async () => {

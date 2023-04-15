@@ -3,7 +3,7 @@ version: '3'
 services:
   api-solid-pg:
     image: bitnami/postgresql
-    container_name: postgres
+    container_name: snackBarPg
     ports:
       - 5432:5432
     environment:

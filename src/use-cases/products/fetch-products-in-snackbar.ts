@@ -4,7 +4,7 @@ import { Product } from '@prisma/client';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
 
 interface FetchProductsInSnackBarRequest{
-    snackBar_id: string,
+    snackBarId: string,
 	page: number
 }
 
@@ -17,15 +17,15 @@ export class FetchProductsInSnackBar {
         private snackBarRepository: SnackBarRepository){}
 
 	async execute({
-		snackBar_id,
+		snackBarId,
 		page
 	}: FetchProductsInSnackBarRequest): Promise<FetchProductsInSnackBarResponse>{
-		const snackBar = await this.snackBarRepository.findById(snackBar_id);
+		const snackBar = await this.snackBarRepository.findById(snackBarId);
 
 		if(!snackBar)
 			throw new ResourceNotFoundError;
         
-		const products = await this.productRepository.findAllBySnackBarId(snackBar_id, page);
+		const products = await this.productRepository.findAllBySnackBarId(snackBarId, page);
 
 		return  {
 			products
