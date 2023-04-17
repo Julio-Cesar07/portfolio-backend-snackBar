@@ -53,7 +53,7 @@ describe('Buy a Product Use Case', () => {
 		}
 
 		const { buy } = await sut.execute({
-			user_id: 'user-01',
+			userId: 'user-01',
 			products,
 		});
 
@@ -76,7 +76,7 @@ describe('Buy a Product Use Case', () => {
 
 		await expect(() => 
 			sut.execute({
-				user_id: 'user-01',
+				userId: 'user-01',
 				products,
 			})
 		).rejects.toBeInstanceOf(ProductDoesntExistError);
@@ -100,7 +100,7 @@ describe('Buy a Product Use Case', () => {
 
 		await expect(() => 
 			sut.execute({
-				user_id: 'user-01',
+				userId: 'user-01',
 				products,
 			})
 		).rejects.toBeInstanceOf(InsufficientFundsError);
@@ -111,7 +111,7 @@ describe('Buy a Product Use Case', () => {
 
 		await expect(() => 
 			sut.execute({
-				user_id: 'user-01',
+				userId: 'user-01',
 				products,
 			})
 		).rejects.toBeInstanceOf(EmptyBuyError);
@@ -134,7 +134,7 @@ describe('Buy a Product Use Case', () => {
 
 		await expect(() => 
 			sut.execute({
-				user_id: 'user-01',
+				userId: 'user-01',
 				products,
 			})
 		).rejects.toBeInstanceOf(DifferentSnackBarError);

@@ -20,6 +20,21 @@ export class PrismaProductRepository implements ProductRepository{
 
 		return snackBar;
 	}
+
+	async findByQuery(query: string, page: number): Promise<Product[]> {
+		const products = await prisma.product.findMany({
+			where: {
+				title: {
+					contains: query,
+				}
+			},
+			take: numberPagesPagination,
+			skip: (page - 1) * numberPagesPagination
+		});
+
+		return products;
+	}
+
 	async findAllBySnackBarId(snackBarId: string, page: number): Promise<Product[]> {
 		const products = await prisma.product.findMany({
 			where: {

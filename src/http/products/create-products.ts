@@ -21,7 +21,8 @@ export async function createProducts(request: FastifyRequest, reply: FastifyRepl
 			price,
 			snackBar_id,
 			title,
-			description
+			description,
+			userId: request.user.sub
 		});
 
 		return reply.status(201).send(product);

@@ -1,7 +1,8 @@
 import { Prisma, SnackBar } from '@prisma/client';
-import { SnackBarRepository, validateSnackBar } from '../interfaces/snack-bar-repository';
+import { SnackBarRepository } from '../interfaces/snack-bar-repository';
 import { prisma } from '@/lib/prisma';
 import { numberPagesPagination } from '@/utils/number-pages-pagination';
+import { validateSnackBar } from '@/@types/validate-status-snackBar';
 
 export class PrismaSnackBarRepository implements SnackBarRepository{
 	async create(data: Prisma.SnackBarUncheckedCreateInput): Promise<SnackBar> {
@@ -36,13 +37,27 @@ export class PrismaSnackBarRepository implements SnackBarRepository{
 		return snackBars;
 	}
 
+	async findByQuery(query: string, page: number): Promise<SnackBar[]> {
+		const snackBars = await prisma.snackBar.findMany({
+			where: {
+				name: {
+					contains: query
+				}
+			},
+			take: numberPagesPagination,
+			skip: (page-1)*numberPagesPagination
+		});
+
+		return snackBars;
+	}
+
 	async validateStatus(snackBarId: string, validate: validateSnackBar): Promise<SnackBar | null> {
 		const snackBar = await prisma.snackBar.update({
 			where: {
 				id: snackBarId
 			},
 			data: {
-				status: validate.validate,
+				status: validate.roleToVerify,
 			}
 		});
 

@@ -7,6 +7,7 @@ import { usersRoutes } from './http/users/routes';
 import { snackBarRoutes } from './http/snackBar/routes';
 import { productsRoutes } from './http/products/routes';
 import { adminRoutes } from './http/admin/routes';
+import { buyProductRoutes } from './http/buy/routes';
 
 export const app = fastify();
 
@@ -26,6 +27,7 @@ app.register(fastifyCookie);
 app.register(usersRoutes);
 app.register(snackBarRoutes);
 app.register(productsRoutes);
+app.register(buyProductRoutes);
 
 if(env.NODE_ENV === 'dev')
 	app.register(adminRoutes); // create user admin

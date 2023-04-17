@@ -39,6 +39,14 @@ export class InMemorySnackBarRepository implements SnackBarRepository{
 		return snackBars;
 	}
 
+	async findByQuery(query: string, page: number): Promise<SnackBar[]> {
+		const snackBars = this.items
+			.filter(item => item.name.toLowerCase().includes(query.toLowerCase()))
+			.slice((page - 1) * numberPagesPagination, page*numberPagesPagination);
+
+		return snackBars;
+	}
+
 	async validateStatus(snackBarId: string, {roleToVerify}: validateSnackBar): Promise<SnackBar | null> {
 		const snackBar = this.items.find(item => {
 			if(item.id === snackBarId){

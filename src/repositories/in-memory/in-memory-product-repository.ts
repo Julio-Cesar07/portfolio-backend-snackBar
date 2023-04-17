@@ -26,6 +26,14 @@ export class InMemoryProductRepository implements ProductRepository{
 		return product ?? null;
 	}
 
+	async findByQuery(query: string, page: number): Promise<Product[]> {
+		const products = this.items
+			.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))
+			.slice((page - 1) * numberPagesPagination, page*numberPagesPagination);
+
+		return products;
+	}
+
 	async findAllBySnackBarId(snackBarId: string, page: number): Promise<Product[]> {
 		const products = this.items
 			.filter(item => item.snackBar_id === snackBarId)

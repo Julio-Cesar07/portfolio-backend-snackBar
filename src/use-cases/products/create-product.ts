@@ -3,12 +3,14 @@ import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-reposito
 import { Product } from '@prisma/client';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
 import { SnackBarNotValidateError } from '../errors/snackBar-not-validate-error';
+import { UserIsntOwnerSnackBarError } from '../errors/user-isnt-owner-snackBar-error';
 
 interface CreateProductUseCaseRequest{
     description?: string,
     price: number,
     snackBar_id: string,
     title: string,
+	userId: string
 }
 
 interface CreateProductUseCaseResponse{
@@ -23,12 +25,16 @@ export class CreateProductUseCase {
 		price,
 		snackBar_id,
 		title,
-		description
+		description,
+		userId
 	}: CreateProductUseCaseRequest): Promise<CreateProductUseCaseResponse>{
 		const snackBar = await this.snackBarRepository.findById(snackBar_id);
 
 		if(!snackBar)
 			throw new ResourceNotFoundError;
+
+		if(snackBar.user_id !== userId)
+			throw new UserIsntOwnerSnackBarError;
 
 		if(snackBar.status !== 'CHECKED')
 			throw new SnackBarNotValidateError;

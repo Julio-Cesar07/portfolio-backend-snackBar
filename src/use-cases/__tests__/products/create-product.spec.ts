@@ -4,6 +4,7 @@ import { ProductRepository } from '@/repositories/interfaces/product-respository
 import { SnackBarRepository } from '@/repositories/interfaces/snack-bar-repository';
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found-error';
 import { SnackBarNotValidateError } from '@/use-cases/errors/snackBar-not-validate-error';
+import { UserIsntOwnerSnackBarError } from '@/use-cases/errors/user-isnt-owner-snackBar-error';
 import { CreateProductUseCase } from '@/use-cases/products/create-product';
 import { beforeEach, describe, expect, it } from 'vitest';
 
@@ -33,7 +34,8 @@ describe('Create a Product Use Case', () => {
 			price: 22,
 			snackBar_id: 'snackBar-01',
 			title: 'Sandwich',
-			description: 'Um bom sandwich'
+			description: 'Um bom sandwich',
+			userId: 'user-01',
 		});
 
 		expect(product.id).toEqual(expect.any(String));
@@ -46,7 +48,8 @@ describe('Create a Product Use Case', () => {
 				price: 22,
 				snackBar_id: 'snackBar-02',
 				title: 'Sandwich',
-				description: 'Um bom sandwich'
+				description: 'Um bom sandwich',
+				userId: 'user-01',
 			})
 		).rejects.toBeInstanceOf(ResourceNotFoundError);
 	});
@@ -68,8 +71,32 @@ describe('Create a Product Use Case', () => {
 				price: 22,
 				snackBar_id: 'snackBar-02',
 				title: 'Sandwich',
-				description: 'Um bom sandwich'
+				description: 'Um bom sandwich',
+				userId: 'user-01',
 			})
 		).rejects.toBeInstanceOf(SnackBarNotValidateError);
+	});
+
+	it('should not be able create a product in snack bar that the user isnt owner', async () => {
+
+		await snackBarRepository.create({
+			id: 'snackBar-02',
+			addressCity: 'Santos',
+			addressNumber: '45698',
+			addressStreet: 'Rua de fulano',
+			name: 'Snack Bar Git',
+			user_id: 'user-01',
+		});
+
+
+		await expect(() => 
+			sut.execute({
+				price: 22,
+				snackBar_id: 'snackBar-02',
+				title: 'Sandwich',
+				description: 'Um bom sandwich',
+				userId: 'user-02',
+			})
+		).rejects.toBeInstanceOf(UserIsntOwnerSnackBarError);
 	});
 });
