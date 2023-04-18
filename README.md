@@ -10,7 +10,7 @@ Snack bar style app where you can see the products.
 - [x] Deve ser possível colocar dinheiro na conta de um usuário;
 - [x] Deve ser possível um usuário cadastrar uma lanchonete;
 - [x] Deve ser possível criar um produto em uma lanchonete (apenas pelo dono);
-- [ ] Deve ser possível procurar uma lanchone/produto pelo nome;
+- [x] Deve ser possível procurar uma lanchone/produto pelo nome;
 - [x] Deve ser possível realizar a compra de um produto;
 - [x] Deve ser possível consultar todos produtos de uma lanchonete;
 - [x] Deve ser possível obter o histórico de compra do usuário;
@@ -42,7 +42,7 @@ Snack bar style app where you can see the products.
 - Prisma SnackBar, products e buy ✔
 - Rotas que requerem o JWT ✔
 - Rotas SnackBar, products e buy ✔
-- Os únicos usuários que podem criar novos produtos são o proprietário ou admin
+- Apenas o dono pode criar novos produtos de uma snack bar ✔
 - Testes E2E
 - CI
 - Deploy

@@ -3,11 +3,12 @@ import { ZodError } from 'zod';
 import { env } from './env';
 import fastifyJwt from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
-import { usersRoutes } from './http/users/routes';
-import { snackBarRoutes } from './http/snackBar/routes';
-import { productsRoutes } from './http/products/routes';
-import { adminRoutes } from './http/admin/routes';
-import { buyProductRoutes } from './http/buy/routes';
+import { usersRoutes } from './http/controllers/users/routes';
+import { snackBarRoutes } from './http/controllers/snackBar/routes';
+import { productsRoutes } from './http/controllers/products/routes';
+import { adminRoutes } from './http/controllers/admin/routes';
+import { buyProductRoutes } from './http/controllers/buy/routes';
+import { nonUsersRoutes } from './http/controllers/non-users/routes';
 
 export const app = fastify();
 
@@ -28,6 +29,7 @@ app.register(usersRoutes);
 app.register(snackBarRoutes);
 app.register(productsRoutes);
 app.register(buyProductRoutes);
+app.register(nonUsersRoutes);
 
 if(env.NODE_ENV === 'dev')
 	app.register(adminRoutes); // create user admin

@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { createAdmin } from './admin';
-import { verifyJWT } from '../middlewares/verify-jwt';
-import { verifyRoleUser } from '../middlewares/verify-role-user';
+import { verifyJWT } from '../../middlewares/verify-jwt';
+import { verifyRoleUser } from '../../middlewares/verify-role-user';
 import { alterAmount } from './alter-amount';
 import { listAllUser } from './list-all-user';
 

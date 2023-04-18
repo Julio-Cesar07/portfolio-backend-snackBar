@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { verifyJWT } from '../middlewares/verify-jwt';
+import { verifyJWT } from '../../middlewares/verify-jwt';
 import { buyProducts } from './buy-products';
 
 export async function  buyProductRoutes(app: FastifyInstance) {
