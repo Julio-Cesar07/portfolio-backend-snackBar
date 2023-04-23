@@ -1,5 +1,6 @@
 import { InvalidCredentialErrors } from '@/use-cases/errors/invalid-credentials-error';
 import { makeAuthenticateUseCase } from '@/use-cases/factories/users/make-authenticate-use-case';
+import { makeSaveUserRefreshToken } from '@/use-cases/factories/token/make-save-user-refresh-token';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
@@ -18,18 +19,19 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 			password,
 		});
 
-		const token = await reply.jwtSign(
+		const accessToken = await reply.jwtSign(
 			{
 				role: user.role
 			},
 			{
 				sign: {
-					sub: user.id
+					sub: user.id,
+					expiresIn: '10m'
 				}
 			}
 		);
 
-		const refreshToken = await reply.jwtSign(
+		const refresh_token = await reply.jwtSign(
 			{
 				role: user.role
 			},
@@ -40,16 +42,29 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 				}
 			}
 		);
+
+		const saveRefreshToken = makeSaveUserRefreshToken();
+
+		await saveRefreshToken.execute({
+			refresh_token,
+			userId: user.id,
+		});
         
 		return reply
-			.setCookie('refreshToken', refreshToken, {
+			.setCookie('refreshToken', refresh_token, {
+				path: '/',
+				secure: true,
+				sameSite: true,
+				httpOnly: true
+			})
+			.setCookie('accessToken', accessToken, {
 				path: '/',
 				secure: true,
 				sameSite: true,
 				httpOnly: true
 			})
 			.status(200)
-			.send({token});
+			.send({accessToken,});
 	} catch (err) {
 		if(err instanceof InvalidCredentialErrors)
 			return reply.status(400).send({ message: err.message});

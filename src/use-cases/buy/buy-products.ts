@@ -18,7 +18,8 @@ interface BuyProductsUseCaseResponse {
 }
 
 export class BuyProductsUseCase {
-	constructor(private userRepository: UserRepository,
+	constructor(
+		private userRepository: UserRepository,
         private productRepository: ProductRepository,
         private buyRepository: BuyProductsRepository){}
 
@@ -64,7 +65,6 @@ export class BuyProductsUseCase {
 
 		const amountUpdate = (sumProductsPrice) * -1;
 
-		console.log('aqui porra ', amountUpdate);
 		await this.userRepository.alterAmount(user.id, amountUpdate);
 
 		return {

@@ -6,7 +6,7 @@ export async function fetchSnackBarByUserId(request: FastifyRequest, reply: Fast
 	const fetchSnackBarSchema = z.object({
 		page: z.coerce.number().min(1).default(1)
 	});
-    
+
 	const { page } = fetchSnackBarSchema.parse(request.query);
 	const fetchSnackBar = makeFetchSnackBarByUserId();
 

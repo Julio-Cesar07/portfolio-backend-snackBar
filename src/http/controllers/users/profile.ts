@@ -8,8 +8,6 @@ export async function profile(request: FastifyRequest, reply: FastifyReply){
 		userId: z.string(),
 	});
 
-	console.log(request.body);
-
 	const { userId } = getUserProfileSchema.parse(request.body);
 
 	try {
