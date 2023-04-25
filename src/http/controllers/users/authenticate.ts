@@ -64,7 +64,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 				httpOnly: true
 			})
 			.status(200)
-			.send({accessToken,});
+			.send({access_token: accessToken,});
 	} catch (err) {
 		if(err instanceof InvalidCredentialErrors)
 			return reply.status(400).send({ message: err.message});

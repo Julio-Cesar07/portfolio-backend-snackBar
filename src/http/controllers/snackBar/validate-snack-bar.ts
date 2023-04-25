@@ -17,7 +17,7 @@ export async function validateSnackBar(request: FastifyRequest, reply: FastifyRe
 			snackBarId,
 		});
 
-		return reply.status(200).send(snackBar.status);
+		return reply.status(200).send({message: snackBar.status});
 
 	} catch (err) {
 		if(err instanceof ResourceNotFoundError)

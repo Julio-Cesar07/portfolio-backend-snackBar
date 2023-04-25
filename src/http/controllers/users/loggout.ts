@@ -6,7 +6,7 @@ export async function loggout(request: FastifyRequest, reply: FastifyReply){
 			path: '/'
 		})
 		.clearCookie('refreshToken', {
-			path: '/'
+			path: '/',
 		})
 		.status(200)
 		.send();
