@@ -14,14 +14,16 @@ describe('Refresh Token (e2e)', () => {
 
 	it('should be able to refresh token', async () => {
 		const { access_token, refresh_token } = await createAndAuthenticateUser(app);
-        
+
 		const response = await request(app.server)
 			.patch('/token/refresh')
-			.set('Cookie', [`accessToken=${access_token}`, `refreshToken=${refresh_token}`]);
+			.send({
+				refresh_token,
+			})
+			.set('Cookie', [`accessToken=${access_token}`]);
 
 		expect(response.statusCode).toEqual(200);
 		expect(response.get('Set-Cookie')).toEqual([
-			expect.stringContaining('refreshToken='),
 			expect.stringContaining('accessToken='),
 		]);
 	});

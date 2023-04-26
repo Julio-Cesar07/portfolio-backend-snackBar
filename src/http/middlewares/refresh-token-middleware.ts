@@ -4,21 +4,21 @@ import { makeRefreshToken } from '@/use-cases/factories/token/make-refresh-token
 import { makeSaveUserRefreshToken } from '@/use-cases/factories/token/make-save-user-refresh-token';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-export async function refreshTokenMiddleware(request: FastifyRequest, reply: FastifyReply){
+export async function refreshTokenMiddleware(request: FastifyRequest, reply: FastifyReply, refresToken: string){
 	try {
-		await request.jwtVerify({ onlyCookie: true, ignoreExpiration: true,});
+		await request.jwtVerify({ ignoreExpiration: true,});
 	
-		const { role } = request.user;
 		const refreshTokenUseCase = makeRefreshToken();
 		
 		const { refresh_token_saved } = await refreshTokenUseCase.execute({
-			refresh_token: request.cookies['refreshToken'] ?? null,
+			refresh_token: refresToken,
 			userId: request.user.sub
 		});
-
-		app.jwt.verify(refresh_token_saved);
 		
-		const accessToken = await reply.jwtSign(
+		app.jwt.verify(refresh_token_saved);
+		const { role } = request.user;
+		
+		const access_token = await reply.jwtSign(
 			{ role },
 			{
 				sign: {
@@ -46,7 +46,7 @@ export async function refreshTokenMiddleware(request: FastifyRequest, reply: Fas
 		});
 	
 		return {
-			accessToken, 
+			access_token, 
 			refresh_token
 		};
 

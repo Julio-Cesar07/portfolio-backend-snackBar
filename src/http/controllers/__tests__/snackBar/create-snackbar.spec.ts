@@ -13,7 +13,7 @@ describe('Create Snack Bar (e2e)', () => {
 	});
 
 	it('should be able to create a snack bar', async () => {
-		const { access_token, refresh_token } = await createAndAuthenticateUser(app);
+		const { access_token } = await createAndAuthenticateUser(app);
 
 		const response = await request(app.server)
 			.post('/snackBar')
@@ -24,7 +24,7 @@ describe('Create Snack Bar (e2e)', () => {
 				name: 'Snack',
 				description: 'oie, eu sou goku'
 			})
-			.set('Cookie', [`accessToken=${access_token}`, `refreshToken=${refresh_token}`]);
+			.set('Cookie', [`accessToken=${access_token}`]);
 
 		expect(response.statusCode).toEqual(201);
 		expect(response.body).toEqual({

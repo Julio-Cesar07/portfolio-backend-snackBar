@@ -14,15 +14,13 @@ describe('Validate Snack Bar (e2e)', () => {
 	});
 
 	it('should be able to validate a snack bar', async () => {
-		const { access_token, refresh_token, id: user_id } = await createAndAuthenticateUser(app, true);
+		const { access_token, id: user_id } = await createAndAuthenticateUser(app, true);
 
-		const { id: snackBar_id } = await createAndReturnIdSnackBar(app, false, { access_token, refresh_token, user_id, });
+		const { id: snackBar_id } = await createAndReturnIdSnackBar(app, false, { access_token, user_id, });
 
 		const response = await request(app.server)
 			.patch(`/snackBar/${snackBar_id}/validate`)
-			.set('Cookie', [`accessToken=${access_token}`, `refreshToken=${refresh_token}`]);
-
-		console.log(response.body);
+			.set('Cookie', [`accessToken=${access_token}`]);
 
 		expect(response.statusCode).toEqual(200);
 		expect(response.body).toEqual({

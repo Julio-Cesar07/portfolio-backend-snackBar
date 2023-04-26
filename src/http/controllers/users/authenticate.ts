@@ -19,7 +19,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 			password,
 		});
 
-		const accessToken = await reply.jwtSign(
+		const access_token = await reply.jwtSign(
 			{
 				role: user.role
 			},
@@ -51,20 +51,14 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 		});
         
 		return reply
-			.setCookie('refreshToken', refresh_token, {
-				path: '/',
-				secure: true,
-				sameSite: true,
-				httpOnly: true
-			})
-			.setCookie('accessToken', accessToken, {
+			.setCookie('accessToken', access_token, {
 				path: '/',
 				secure: true,
 				sameSite: true,
 				httpOnly: true
 			})
 			.status(200)
-			.send({access_token: accessToken,});
+			.send({access_token, refresh_token});
 	} catch (err) {
 		if(err instanceof InvalidCredentialErrors)
 			return reply.status(400).send({ message: err.message});

@@ -30,7 +30,8 @@ describe('Authenticate (e2e)', () => {
 
 		expect(response.statusCode).toEqual(200);
 		expect(response.body).toEqual({
-			access_token: expect.any(String)
+			access_token: expect.any(String),
+			refresh_token: expect.any(String),
 		});
 	});
 });

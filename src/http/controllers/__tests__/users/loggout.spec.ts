@@ -19,8 +19,7 @@ describe('Loggout (e2e)', () => {
 			.get('/loggout');
         
 		expect(response.get('Set-Cookie')).toEqual([
-			expect.stringContaining('accessToken='),
-			expect.stringContaining('refreshToken=')
+			expect.stringContaining('accessToken=;'),
 		]);
 	});
 });

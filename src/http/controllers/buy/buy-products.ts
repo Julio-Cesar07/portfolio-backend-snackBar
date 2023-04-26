@@ -26,18 +26,18 @@ export async function buyProducts(request: FastifyRequest, reply: FastifyReply){
 			products,
 		});
 
-		return reply.status(200).send(buy.id);
+		return reply.status(200).send(buy);
 	} catch (err) {
 		if(err instanceof EmptyBuyError)
-			return reply.status(404).send({ message: err.message});
+			return reply.status(406).send({ message: err.message});
 		if(err instanceof ResourceNotFoundError)
-			return reply.status(404).send({ message: err.message});
+			return reply.status(406).send({ message: err.message});
 		if(err instanceof DifferentSnackBarError)
-			return reply.status(404).send({ message: err.message});
+			return reply.status(406).send({ message: err.message});
 		if(err instanceof ProductDoesntExistError)
-			return reply.status(404).send({ message: err.message});
+			return reply.status(406).send({ message: err.message});
 		if(err instanceof InsufficientFundsError)
-			return reply.status(404).send({ message: err.message});
+			return reply.status(406).send({ message: err.message});
 		throw err;
 	}
 }

@@ -44,6 +44,6 @@ Snack bar style app where you can see the products.
 - Rotas SnackBar, products e buy ✔
 - Apenas o dono pode criar novos produtos de uma snack bar ✔
 - aprimorar refresh token (criar tabela com id, userid, refreshtoken, expiratesin, created_at) ✔
-- Testes E2E ✖
+- Testes E2E ✔
 - CI 
 - Deploy

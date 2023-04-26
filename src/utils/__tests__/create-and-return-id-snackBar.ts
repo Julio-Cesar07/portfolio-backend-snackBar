@@ -4,8 +4,7 @@ import request from 'supertest';
 
 export async function createAndReturnIdSnackBar(app: FastifyInstance, isValidate = false, user: {
     user_id: string,
-    access_token: string,
-    refresh_token: string
+    access_token: string
 }){
 	await prisma.snackBar.create({
 		data: {
@@ -20,7 +19,7 @@ export async function createAndReturnIdSnackBar(app: FastifyInstance, isValidate
 
 	const response = await request(app.server)
 		.get('/snackBar')
-		.set('Cookie', [`accessToken=${user.access_token}`, `refreshToken=${user.refresh_token}`]);
+		.set('Cookie', [`accessToken=${user.access_token}`]);
 
 	return {
 		id: response.body[0].id,
