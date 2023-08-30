@@ -1,6 +1,8 @@
 # App
 
-Snack bar style app where you can see the products.
+Este projeto tinha como objetivo criar um servidor para um cardápio virtual, nele utilizei Node.js, Prisma com PostgresSql e o framework Fastify para lidar com as chamadas HTTP, além da utilização de patterns como InMemory Database, factories, use-cases.
+No projeto, implementei um sistema de snack bar digital, onde as lanchonetes e seus produtos eram criados e exibidos, além da parte de compras desses produtos. Na parte do usuário, implementei recursos de registros no servidor, permitindo que os clientes fizessem login e comprassem os produtos disponíveis.
+Ainda criei um fluxo de aprovação onde um administrador validava os produtos e atualizações no cardápio virtual, garantindo a precisão das informações.
 
 ## RFs (Requisitos Funcionais)
 
